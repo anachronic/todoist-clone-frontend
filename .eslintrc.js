@@ -15,6 +15,7 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'no-console': process.env.NODE_ENV === 'production' ? 'on' : 'warn',
+    'react/prop-types': 'off',
   },
   env: {
     node: true,
