@@ -1,17 +1,34 @@
 import React from 'react'
 import { Button } from './Button'
+import { Link } from 'react-router-dom'
 
 export const TopBar: React.FC = () => {
   return (
     <div className="bg-gray-700 px-1 py-3 w-full items-center flex flex-row text-gray-200">
       <div className="flex flex-grow flex-row items-center">
         <div className="px-3">
-          <a
-            href="#"
+          <Link
+            to="/"
             className="hover:underline hover:text-indigo-300 text-gray-200"
           >
-            Go home
-          </a>
+            Go Home
+          </Link>
+        </div>
+        <div className="px-3">
+          <Link
+            to="/about"
+            className="hover:underline hover:text-indigo-300 text-gray-200"
+          >
+            About
+          </Link>
+        </div>
+        <div className="px-3">
+          <Link
+            to="/tasks"
+            className="hover:underline hover:text-indigo-300 text-gray-200"
+          >
+            Tasks
+          </Link>
         </div>
       </div>
       <div>
