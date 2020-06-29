@@ -1,24 +1,28 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { Home } from './pages/Home'
-import { Tasks } from './pages/Tasks'
-import { Login } from './pages/Login'
+import { LazyLoad } from './components/LazyLoad'
 
 export const Routes: React.FC = () => {
   return (
     <Switch>
-      <Route exact path="/">
-        <Home />
-      </Route>
-      <Route exact path="/about">
-        About this app
-      </Route>
-      <Route exact path="/tasks">
-        <Tasks />
-      </Route>
-      <Route exact path="/login">
-        <Login />
-      </Route>
+      <Suspense fallback={<LazyLoad />}>
+        <Route exact path="/" component={lazy(() => import('./pages/Home'))} />
+        <Route
+          exact
+          path="/about"
+          component={lazy(() => import('./pages/About'))}
+        />
+        <Route
+          exact
+          path="/tasks"
+          component={lazy(() => import('./pages/Tasks'))}
+        />
+        <Route
+          exact
+          path="/login"
+          component={lazy(() => import('./pages/Login'))}
+        />
+      </Suspense>
     </Switch>
   )
 }

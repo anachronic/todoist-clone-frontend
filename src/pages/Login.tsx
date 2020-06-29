@@ -11,7 +11,7 @@ interface FormValues {
   password: string
 }
 
-export const Login: React.FC = () => {
+const Login: React.FC = () => {
   const authStore = useAuthStore()
   const [requestLogin, { loading }] = useMutation(
     loader('../queries/requestLogin.graphql'),
@@ -69,3 +69,5 @@ export const Login: React.FC = () => {
     </div>
   )
 }
+
+export default Login

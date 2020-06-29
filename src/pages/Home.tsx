@@ -5,7 +5,7 @@ import React from 'react'
 
 const query = loader('../queries/me.graphql')
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
   const { loading, error, data } = useQuery(query)
   // const { isAuthenticated } = useAuthStore()
 
@@ -19,3 +19,5 @@ export const Home: React.FC = () => {
     return <div>Dunno wtf happened</div>
   }
 }
+
+export default Home
