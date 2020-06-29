@@ -1,8 +1,10 @@
 import React from 'react'
 import { Button } from './Button'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 export const TopBar: React.FC = () => {
+  const history = useHistory()
+
   return (
     <div className="bg-gray-700 px-1 py-3 w-full items-center flex flex-row text-gray-200">
       <div className="flex flex-grow flex-row items-center">
@@ -33,7 +35,7 @@ export const TopBar: React.FC = () => {
       </div>
       <div>
         <div className="px-3">
-          <Button>Log in</Button>
+          <Button onClick={() => history.push('/login')}>Log in</Button>
         </div>
       </div>
     </div>
