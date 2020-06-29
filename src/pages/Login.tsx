@@ -1,7 +1,10 @@
+import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
+import { loader } from 'graphql.macro'
 import React from 'react'
 import { Button } from '../components/Button'
 import { FormikInput } from '../components/FormikInput'
+import { useAuthStore } from '../hooks/useAuthStore'
 
 interface FormValues {
   email: string
@@ -9,13 +12,27 @@ interface FormValues {
 }
 
 export const Login: React.FC = () => {
+  const authStore = useAuthStore()
+  const [requestLogin, { loading }] = useMutation(
+    loader('../queries/requestLogin.graphql'),
+    {
+      onCompleted: ({ obtainAuthToken: token }) => {
+        if (token) {
+          authStore.authenticate(token)
+        } else {
+          console.log('show some sort of fail message')
+        }
+      },
+    }
+  )
   const form = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
-    onSubmit(values: FormValues) {
-      console.log(values)
+    validate: () => ({}),
+    async onSubmit(values: FormValues) {
+      await requestLogin({ variables: values })
     },
   })
 
@@ -42,7 +59,10 @@ export const Login: React.FC = () => {
           </div>
 
           <div>
-            <Button type="submit">Login</Button>
+            <Button type="submit">
+              {loading && <span>...</span>}
+              <span>Login</span>
+            </Button>
           </div>
         </form>
       </div>

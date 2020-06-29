@@ -1,0 +1,7 @@
+query PersonalInfo {
+  me {
+    id
+    name
+    email
+  }
+}

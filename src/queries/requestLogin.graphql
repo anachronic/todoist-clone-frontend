@@ -1,0 +1,3 @@
+mutation requestLogin($email: String!, $password: String!) {
+  obtainAuthToken(user: { password: $password, email: $email })
+}
