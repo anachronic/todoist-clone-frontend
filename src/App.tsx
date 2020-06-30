@@ -1,6 +1,7 @@
 import { ApolloProvider } from '@apollo/react-hooks'
 import ApolloClient from 'apollo-boost'
 import { Observer } from 'mobx-react-lite'
+import 'mobx-react-lite/batchingForReactDom'
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import './assets/styles.css'
