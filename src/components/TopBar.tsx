@@ -1,9 +1,18 @@
 import React from 'react'
 import { Button } from './Button'
 import { Link, useHistory } from 'react-router-dom'
+import { useAuthStore } from '../hooks/useAuthStore'
 
 export const TopBar: React.FC = () => {
   const history = useHistory()
+  const { isAuthenticated } = useAuthStore()
+
+  let rhs
+  if (isAuthenticated) {
+    rhs = <Button onClick={() => console.log('implement me')}>Log out</Button>
+  } else {
+    rhs = <Button onClick={() => history.push('/login')}>Log in</Button>
+  }
 
   return (
     <div className="bg-gray-700 px-1 py-3 w-full items-center flex flex-row text-gray-200">
@@ -34,9 +43,7 @@ export const TopBar: React.FC = () => {
         </div>
       </div>
       <div>
-        <div className="px-3">
-          <Button onClick={() => history.push('/login')}>Log in</Button>
-        </div>
+        <div className="px-3">{rhs}</div>
       </div>
     </div>
   )

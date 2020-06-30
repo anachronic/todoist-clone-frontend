@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
 import { loader } from 'graphql.macro'
 import React from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { FormikInput } from '../components/FormikInput'
 import { useAuthStore } from '../hooks/useAuthStore'
@@ -11,28 +12,29 @@ interface FormValues {
   password: string
 }
 
+const mutation = loader('../queries/requestLogin.graphql')
+
 const Login: React.FC = () => {
   const authStore = useAuthStore()
-  const [requestLogin, { loading }] = useMutation(
-    loader('../queries/requestLogin.graphql'),
-    {
-      onCompleted: ({ obtainAuthToken: token }) => {
-        if (token) {
-          authStore.authenticate(token)
-        } else {
-          console.log('show some sort of fail message')
-        }
-      },
-    }
-  )
+  const history = useHistory()
+  const [requestLogin, { loading }] = useMutation(mutation, {
+    onCompleted: ({ obtainAuthToken: token }) => {
+      if (token) {
+        authStore.authenticate(token)
+        history.push('/')
+      } else {
+        console.log('show some sort of fail message')
+      }
+    },
+  })
   const form = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
     validate: () => ({}),
-    async onSubmit(values: FormValues) {
-      await requestLogin({ variables: values })
+    onSubmit(values: FormValues) {
+      requestLogin({ variables: values })
     },
   })
 
@@ -63,6 +65,10 @@ const Login: React.FC = () => {
               {loading && <span>...</span>}
               <span>Login</span>
             </Button>
+          </div>
+
+          <div>
+            {`Don't`} have an account? <Link to="/signup">Sign up!</Link>
           </div>
         </form>
       </div>

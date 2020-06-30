@@ -22,6 +22,11 @@ export const Routes: React.FC = () => {
           path="/login"
           component={lazy(() => import('./pages/Login'))}
         />
+        <Route
+          exact
+          path="/signup"
+          component={lazy(() => import('./pages/Signup'))}
+        />
       </Suspense>
     </Switch>
   )
