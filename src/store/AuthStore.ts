@@ -20,8 +20,15 @@ export class AuthStore {
 
   @action
   logout(): void {
-    this.isAuthenticated = false
-    this.token = null
-    this.userData = {}
+    fetch('http://localhost:4000/sessions/refresh-token', {
+      method: 'DELETE',
+      credentials: 'include',
+    }).then(
+      action('doLogout', () => {
+        this.isAuthenticated = false
+        this.token = null
+        this.userData = {}
+      })
+    )
   }
 }

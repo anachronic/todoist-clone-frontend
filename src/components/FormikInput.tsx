@@ -1,6 +1,5 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { from } from 'apollo-boost'
 
 type Props = {
   type?: string
@@ -12,7 +11,7 @@ type Props = {
 
 export const FormikInput = React.forwardRef<HTMLInputElement, Props>(
   function FormikInput({ label, type = 'text', form, name, ...rest }, ref) {
-    const hasError = form.touched && form.errors[name]
+    const hasError = form.touched[name] && form.errors[name]
 
     return (
       <>

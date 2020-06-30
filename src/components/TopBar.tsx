@@ -5,11 +5,11 @@ import { useAuthStore } from '../hooks/useAuthStore'
 
 export const TopBar: React.FC = () => {
   const history = useHistory()
-  const { isAuthenticated } = useAuthStore()
+  const authStore = useAuthStore()
 
   let rhs
-  if (isAuthenticated) {
-    rhs = <Button onClick={() => console.log('implement me')}>Log out</Button>
+  if (authStore.isAuthenticated) {
+    rhs = <Button onClick={() => authStore.logout()}>Log out</Button>
   } else {
     rhs = <Button onClick={() => history.push('/login')}>Log in</Button>
   }
