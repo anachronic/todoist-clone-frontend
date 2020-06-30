@@ -1,0 +1,8 @@
+query tasks {
+  tasks {
+    id
+    text
+    done
+    schedule
+  }
+}

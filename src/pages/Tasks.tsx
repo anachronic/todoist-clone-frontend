@@ -1,12 +1,25 @@
 import React from 'react'
 import { TaskList } from '../components/TaskList'
+import { loader } from 'graphql.macro'
+import { useQuery } from '@apollo/react-hooks'
+import { Query } from '../components/Query'
 
-const onRemoveTask = (task: number): void => {
-  console.log(`${task} was removed`)
-}
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const query = loader('../queries/tasks.graphql')
 
 const Tasks: React.FC = () => {
-  return <TaskList tasks={['task 1', 'task 2']} onRemoveTask={onRemoveTask} />
+  const queryResult = useQuery(query)
+
+  return (
+    <Query
+      query={queryResult}
+      isEmptyFn={(data) =>
+        !Array.isArray(data.tasks) || data.tasks.length === 0
+      }
+    >
+      {(data) => <TaskList tasks={data.tasks} />}
+    </Query>
+  )
 }
 
 export default Tasks
