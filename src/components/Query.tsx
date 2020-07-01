@@ -1,4 +1,3 @@
-import { useQuery } from '@apollo/react-hooks'
 import React, { useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 
@@ -6,8 +5,8 @@ import { Redirect } from 'react-router-dom'
 const NProgress = require('nprogress')
 
 interface Props {
-  query: ReturnType<typeof useQuery>
-  isEmptyFn: (data: any) => boolean
+  query: any
+  isEmptyFn?: (data: any) => boolean
   children: (data: any) => JSX.Element
 }
 
@@ -33,7 +32,7 @@ export const Query = ({ children, query, isEmptyFn }: Props): JSX.Element => {
     return <></>
   }
 
-  if (isEmptyFn(query.data)) {
+  if (isEmptyFn && isEmptyFn(query.data)) {
     return <div>Nothing to show here</div>
   }
 

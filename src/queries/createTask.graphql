@@ -1,0 +1,8 @@
+mutation createTask($text: String!) {
+  createTask(task: { text: $text }) {
+    id
+    text
+    done
+    schedule
+  }
+}

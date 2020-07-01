@@ -1,13 +1,7 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React from 'react'
 import { Button } from './Button'
-
-export interface Task {
-  id: number
-  text: string
-  done: boolean
-  schedule: string | null
-}
+import { Task } from '../types/Task'
 
 interface Props {
   tasks: Task[]
