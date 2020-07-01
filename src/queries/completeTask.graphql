@@ -1,0 +1,8 @@
+mutation completeTask($id: Float!) {
+  updateTask(task: { id: $id, done: true }) {
+    id
+    text
+    done
+    schedule
+  }
+}
