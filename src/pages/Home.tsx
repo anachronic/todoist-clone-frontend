@@ -1,23 +1,17 @@
 import { useQuery } from '@apollo/react-hooks'
 import { loader } from 'graphql.macro'
 import React from 'react'
-// import { useAuthStore } from '../hooks/useAuthStore'
+import { Query } from '../components/Query'
 
 const query = loader('../queries/me.graphql')
 
 const Home: React.FC = () => {
-  const { loading, error, data } = useQuery(query)
-  // const { isAuthenticated } = useAuthStore()
-
-  if (error) {
-    return <div>Failed {JSON.stringify(error)}</div>
-  } else if (loading) {
-    return <div>loading...</div>
-  } else if (data) {
-    return <div>{JSON.stringify(data)}</div>
-  } else {
-    return <div>Dunno wtf happened</div>
-  }
+  const queryResult = useQuery(query)
+  return (
+    <Query query={queryResult} isEmptyFn={() => false}>
+      {(data) => <div>{JSON.stringify(data)}</div>}
+    </Query>
+  )
 }
 
 export default Home
