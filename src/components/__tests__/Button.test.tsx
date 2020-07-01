@@ -35,4 +35,17 @@ describe('The button component', () => {
 
     expect(fn).toHaveBeenCalled()
   })
+
+  it('Merges className into original classes', () => {
+    render(<Button className="my-class">Hola</Button>)
+
+    function selector(
+      query: string
+    ): ReturnType<typeof document.body.querySelector> {
+      return document.body.querySelector(query)
+    }
+
+    expect(selector('.my-class')).not.toBeNull()
+    expect(selector('.bg-blue-600.hover\\:bg-blue-500.rounded')).not.toBeNull()
+  })
 })
