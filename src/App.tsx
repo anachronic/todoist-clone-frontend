@@ -2,15 +2,12 @@ import { ApolloProvider } from '@apollo/react-hooks'
 import ApolloClient from 'apollo-boost'
 import { Observer } from 'mobx-react-lite'
 import 'mobx-react-lite/batchingForReactDom'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import './assets/styles.css'
 import { TopBar } from './components/TopBar'
-import { useAuthStore } from './hooks/useAuthStore'
+import { useRefreshToken } from './hooks/useRefreshToken'
 import { Routes } from './Routes'
-
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const NProgress = require('nprogress')
 
 function createClient(token: string | null): ApolloClient<unknown> {
   return new ApolloClient({
@@ -23,32 +20,9 @@ function createClient(token: string | null): ApolloClient<unknown> {
 }
 
 export const App: React.FC = () => {
-  const authStore = useAuthStore()
-  const [loading, setLoading] = useState(true)
-  useEffect(() => {
-    if (!loading || authStore.isAuthenticated) {
-      return
-    }
-
-    fetch('http://localhost:4000/sessions/refresh-token', {
-      method: 'POST',
-      credentials: 'include',
-    })
-      .then((data) => data.json())
-      .then(({ accessToken }) => {
-        if (accessToken) {
-          authStore.authenticate(accessToken)
-        }
-      })
-      .finally(() => {
-        NProgress.done()
-        setLoading(false)
-      })
-  }, [loading, authStore])
+  const { loading, authStore } = useRefreshToken()
 
   if (loading) {
-    NProgress.start()
-
     return <></>
   }
 
