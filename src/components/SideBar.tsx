@@ -1,33 +1,44 @@
+import { useQuery } from '@apollo/react-hooks'
+import { loader } from 'graphql.macro'
 import React from 'react'
-import { SideBarHeading } from './SideBarHeading'
 import { IoIosDocument } from 'react-icons/io'
+import { Project } from '../types/Project'
+import { ProjectNew } from './ProjectNew'
+import { Query } from './Query'
 import { SideBarElement } from './SideBarElement'
+import { SideBarHeading } from './SideBarHeading'
+
+const projectsQuery = loader('../queries/projects.graphql')
 
 export const SideBar: React.FC = () => {
+  const query = useQuery(projectsQuery)
+
   return (
-    <div className="space-y-10">
-      <div className="">
-        <SideBarElement title="Inbox">
-          <IoIosDocument className="inline" size="1.5rem" />
-        </SideBarElement>
-        <SideBarElement title="Today">
-          <IoIosDocument className="inline" size="1.5rem" />
-        </SideBarElement>
-      </div>
+    <Query query={query}>
+      {({ projects }) => (
+        <div className="space-y-10">
+          <div className="">
+            <SideBarElement title="Inbox">
+              <IoIosDocument className="inline" size="1.5rem" />
+            </SideBarElement>
+            <SideBarElement title="Today">
+              <IoIosDocument className="inline" size="1.5rem" />
+            </SideBarElement>
+          </div>
 
-      <div className="">
-        <SideBarHeading title="Projects" />
+          <div className="">
+            <SideBarHeading title="Projects" />
 
-        <SideBarElement title="proj1">
-          <IoIosDocument className="inline" size="1.5rem" />
-        </SideBarElement>
-        <SideBarElement title="Some confusingly large name for a project">
-          <IoIosDocument className="inline" size="1.5rem" />
-        </SideBarElement>
-        <SideBarElement title="A real project">
-          <IoIosDocument className="inline" size="1.5rem" />
-        </SideBarElement>
-      </div>
-    </div>
+            {projects.map((project: Project) => (
+              <SideBarElement key={project.id} title={project.name}>
+                <IoIosDocument className="inline" size="1.5rem" />
+              </SideBarElement>
+            ))}
+          </div>
+
+          <ProjectNew onProjectAdded={() => query.refetch()} />
+        </div>
+      )}
+    </Query>
   )
 }
