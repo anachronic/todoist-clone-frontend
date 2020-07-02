@@ -36,9 +36,11 @@ export const App: React.FC = () => {
               <TopBar className="shadow-xl" />
             </div>
             <div className="flex flex-row">
-              <div className="ml-5 mt-10 min-w-1/5 pr-10">
-                <SideBar />
-              </div>
+              {authStore.isAuthenticated && (
+                <div className="ml-5 mt-10 min-w-1/5 pr-10">
+                  <SideBar />
+                </div>
+              )}
               <div className="container mx-auto mt-3">
                 <Routes />
               </div>
