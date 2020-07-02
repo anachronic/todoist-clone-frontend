@@ -12,15 +12,22 @@ export const Button: React.FC<Props> = ({
   className,
   ...forward
 }) => {
-  let classNames =
-    'bg-blue-600 hover:bg-blue-500 text-gray-200 px-2 py-1 rounded'
-
-  if (className) {
-    classNames = [classNames, className].join(' ')
-  }
+  const classNames = [
+    'bg-blue-600',
+    'hover:bg-blue-500',
+    'text-gray-200',
+    'px-2',
+    'py-1',
+    'rounded',
+    'items-center',
+    'flex',
+    'inline',
+    'flex-shrink',
+    ...(className || '').split(' '),
+  ]
 
   return (
-    <button type={type} className={classNames} {...forward}>
+    <button type={type} className={classNames.join(' ')} {...forward}>
       {children}
     </button>
   )

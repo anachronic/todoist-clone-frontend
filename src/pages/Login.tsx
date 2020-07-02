@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
 import { loader } from 'graphql.macro'
 import React from 'react'
+import { IoIosRefresh } from 'react-icons/io'
 import { Link, useHistory } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { FormikInput } from '../components/FormikInput'
@@ -62,7 +63,7 @@ const Login: React.FC = () => {
 
           <div>
             <Button type="submit">
-              {loading && <span>...</span>}
+              {loading && <IoIosRefresh className="inline icon-spin mr-1" />}
               <span>Login</span>
             </Button>
           </div>

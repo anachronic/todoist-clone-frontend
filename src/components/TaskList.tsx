@@ -16,7 +16,7 @@ export const TaskList: React.FC<Props> = ({
     <div className="divide-y divide-gray-400">
       {tasks.map((task) => {
         return (
-          <div key={task.id} className="py-2">
+          <div key={task.id} className="py-2 flex flex-row">
             <Button onClick={() => onCompleteTask(task)}>Complete</Button>
             <span className="ml-3">{task.text}</span>
           </div>
