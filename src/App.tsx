@@ -8,6 +8,7 @@ import './assets/styles.css'
 import { TopBar } from './components/TopBar'
 import { useRefreshToken } from './hooks/useRefreshToken'
 import { Routes } from './Routes'
+import { SideBar } from './components/SideBar'
 
 function createClient(token: string | null): ApolloClient<unknown> {
   return new ApolloClient({
@@ -32,7 +33,12 @@ export const App: React.FC = () => {
         <ApolloProvider client={createClient(authStore.token)}>
           <BrowserRouter>
             <div>
-              <TopBar />
+              <TopBar className="shadow-xl" />
+            </div>
+            <div className="flex flex-row">
+              <div className="ml-5 mt-10 min-w-1/5 pr-10">
+                <SideBar />
+              </div>
               <div className="container mx-auto mt-3">
                 <Routes />
               </div>

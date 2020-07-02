@@ -3,7 +3,11 @@ import { Button } from './Button'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuthStore } from '../hooks/useAuthStore'
 
-export const TopBar: React.FC = () => {
+interface Props {
+  className?: string
+}
+
+export const TopBar: React.FC<Props> = ({ className = '' }) => {
   const history = useHistory()
   const authStore = useAuthStore()
 
@@ -15,7 +19,9 @@ export const TopBar: React.FC = () => {
   }
 
   return (
-    <div className="bg-gray-700 px-1 py-3 w-full items-center flex flex-row text-gray-200">
+    <div
+      className={`bg-gray-700 px-1 py-3 w-full items-center flex flex-row text-gray-200 ${className}`}
+    >
       <div className="flex flex-grow flex-row items-center">
         <div className="px-3">
           <Link
