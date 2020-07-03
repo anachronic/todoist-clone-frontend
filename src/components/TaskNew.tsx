@@ -1,11 +1,11 @@
-import { useMutation } from '@apollo/react-hooks'
 import { useFormik } from 'formik'
-import { loader } from 'graphql.macro'
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { useAutoFocus } from '../hooks/useAutoFocus'
+import { TaskCreateInput } from '../types/TaskCreateInput'
 import { Button } from './Button'
 import { FormikInput } from './FormikInput'
+import { Task } from '../types/Task'
 
 interface FormValues {
   text: string
@@ -15,29 +15,33 @@ const validationSchema = yup.object().shape({
   text: yup.string().required('Required').min(1, 'At least 1 character'),
 })
 
-const mutation = loader('../queries/createTask.graphql')
-
 interface Props {
-  onTaskAdded?: (task: any) => void
+  onCreateTask?: (task: TaskCreateInput) => Promise<Task | undefined>
+  projectId?: number
 }
 
-export const TaskNew: React.FC<Props> = ({ onTaskAdded }) => {
+export const TaskNew: React.FC<Props> = ({ onCreateTask, projectId }) => {
   const [adding, setAdding] = useState(false)
   const [inputRef, setInputFocus] = useAutoFocus()
-  const [createTask] = useMutation(mutation)
 
   const form = useFormik({
     initialValues: {
       text: '',
     },
     validationSchema,
-    onSubmit(values: FormValues) {
-      createTask({ variables: values }).then(({ data }) => {
-        setAdding(false)
-        if (onTaskAdded) {
-          onTaskAdded(data.createTask)
+    async onSubmit(values: FormValues) {
+      let createTaskInput: TaskCreateInput = values
+
+      if (typeof projectId !== 'undefined') {
+        createTaskInput = {
+          ...createTaskInput,
+          projectId,
         }
-      })
+      }
+
+      if (onCreateTask) {
+        await onCreateTask(createTaskInput).finally(() => setAdding(false))
+      }
     },
   })
 

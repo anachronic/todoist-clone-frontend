@@ -1,5 +1,5 @@
-mutation createTask($text: String!) {
-  createTask(task: { text: $text }) {
+mutation createTask($text: String!, $projectId: Float = null) {
+  createTask(task: { text: $text, projectId: $projectId }) {
     id
     text
     done

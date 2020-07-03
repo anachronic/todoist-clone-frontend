@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { HTMLAttributes } from 'react'
 
-interface Props {
+interface Props extends HTMLAttributes<HTMLDivElement> {
   title: string
 }
 
@@ -17,11 +17,13 @@ const styles = [
   'items-center',
 ]
 
-export const SideBarElement: React.FC<Props> = ({ title, children }) => {
-  return (
-    <div className={styles.join(' ')}>
-      {children && <div>{children}</div>}
-      <div className="ml-1">{title}</div>
-    </div>
-  )
-}
+export const SideBarElement = React.forwardRef<HTMLDivElement, Props>(
+  function SideBarElement({ children, title, ...props }, ref) {
+    return (
+      <div className={styles.join(' ')} {...props} ref={ref}>
+        {children && <div>{children}</div>}
+        <div className="ml-1">{title}</div>
+      </div>
+    )
+  }
+)

@@ -1,5 +1,5 @@
-query tasks($done: Boolean = null) {
-  tasks(done: $done) {
+query tasks($done: Boolean = null, $projectId: Float) {
+  tasks(done: $done, projectId: $projectId) {
     id
     text
     done
