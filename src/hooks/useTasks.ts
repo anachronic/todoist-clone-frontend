@@ -10,7 +10,10 @@ const createTaskMutation = loader('../queries/createTask.graphql')
 
 // This feels like a hack just to get typescript types right...
 const useTaskQuery = (queryVariables: TaskFilter) => {
-  return useQuery<Task[], TaskFilter>(tasksQuery, { variables: queryVariables })
+  return useQuery<Task[], TaskFilter>(tasksQuery, {
+    variables: queryVariables,
+    fetchPolicy: 'network-only',
+  })
 }
 
 const useCompleteTaskMutation = () => {

@@ -1,4 +1,4 @@
 import React from 'react'
-import { AuthStore } from '../store/AuthStore'
+import { authStore } from '../store/AuthStore'
 
-export const AuthStoreContext = React.createContext(new AuthStore())
+export const AuthStoreContext = React.createContext(authStore)

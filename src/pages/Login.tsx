@@ -18,6 +18,7 @@ const mutation = loader('../queries/requestLogin.graphql')
 const Login: React.FC = () => {
   const authStore = useAuthStore()
   const history = useHistory()
+
   const [requestLogin, { loading }] = useMutation(mutation, {
     onCompleted: ({ obtainAuthToken: token }) => {
       if (token) {

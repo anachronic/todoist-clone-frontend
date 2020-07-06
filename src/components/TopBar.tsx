@@ -1,7 +1,8 @@
+import { useObserver } from 'mobx-react-lite'
 import React from 'react'
-import { Button } from './Button'
 import { Link, useHistory } from 'react-router-dom'
 import { useAuthStore } from '../hooks/useAuthStore'
+import { Button } from './Button'
 
 interface Props {
   className?: string
@@ -11,14 +12,7 @@ export const TopBar: React.FC<Props> = ({ className = '' }) => {
   const history = useHistory()
   const authStore = useAuthStore()
 
-  let rhs
-  if (authStore.isAuthenticated) {
-    rhs = <Button onClick={() => authStore.logout()}>Log out</Button>
-  } else {
-    rhs = <Button onClick={() => history.push('/login')}>Log in</Button>
-  }
-
-  return (
+  return useObserver(() => (
     <div
       className={`bg-gray-700 px-1 py-3 w-full items-center flex flex-row text-gray-200 ${className}`}
     >
@@ -49,8 +43,21 @@ export const TopBar: React.FC<Props> = ({ className = '' }) => {
         </div>
       </div>
       <div>
-        <div className="px-3">{rhs}</div>
+        <div className="px-3">
+          {authStore.isAuthenticated ? (
+            <Button
+              onClick={async () => {
+                await authStore.logout()
+                history.push('/login')
+              }}
+            >
+              Log out
+            </Button>
+          ) : (
+            <Button onClick={() => history.push('/login')}>Log in</Button>
+          )}
+        </div>
       </div>
     </div>
-  )
+  ))
 }
