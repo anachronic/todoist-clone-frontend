@@ -17,7 +17,7 @@ const Tasks: React.FC = () => {
       }
     >
       {(data) => (
-        <div>
+        <div className="mx-5">
           <TaskList tasks={data.tasks} onCompleteTask={onCompleteTask} />
           <div>
             <TaskNew onCreateTask={onCreateTask} />
