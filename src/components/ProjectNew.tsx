@@ -1,5 +1,5 @@
 import { useMutation } from '@apollo/react-hooks'
-import { useFormik } from 'formik'
+import { Formik } from 'formik'
 import { loader } from 'graphql.macro'
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
@@ -27,21 +27,6 @@ export const ProjectNew: React.FC<Props> = ({ onProjectAdded }) => {
   const [inputRef, setInputFocus] = useAutoFocus()
   const [createTask] = useMutation(mutation)
 
-  const form = useFormik({
-    initialValues: {
-      name: '',
-    },
-    validationSchema,
-    onSubmit(values: FormValues) {
-      createTask({ variables: values }).then(({ data }) => {
-        setAdding(false)
-        if (onProjectAdded) {
-          onProjectAdded(data.createTask)
-        }
-      })
-    },
-  })
-
   useEffect(() => {
     if (adding) {
       setInputFocus()
@@ -51,15 +36,30 @@ export const ProjectNew: React.FC<Props> = ({ onProjectAdded }) => {
   return (
     <div>
       {adding && (
-        <form onSubmit={form.handleSubmit}>
-          <FormikInput
-            className="w-full"
-            form={form}
-            name="name"
-            placeholder="Enter to create"
-            ref={inputRef}
-          />
-        </form>
+        <Formik
+          initialValues={{ name: '' }}
+          validationSchema={validationSchema}
+          onSubmit={(values: FormValues) => {
+            createTask({ variables: values }).then(({ data }) => {
+              setAdding(false)
+              if (onProjectAdded) {
+                onProjectAdded(data.createTask)
+              }
+            })
+          }}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <FormikInput
+                className="w-full"
+                name="name"
+                placeholder="Enter to create"
+                ref={inputRef}
+                onBlur={() => setAdding(false)}
+              />
+            </form>
+          )}
+        </Formik>
       )}
       {!adding && (
         <Button onClick={() => setAdding(true)}>Add new project</Button>

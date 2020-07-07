@@ -1,11 +1,11 @@
-import { useFormik } from 'formik'
+import { Formik } from 'formik'
 import React, { useEffect, useState } from 'react'
 import * as yup from 'yup'
 import { useAutoFocus } from '../hooks/useAutoFocus'
+import { Task } from '../types/Task'
 import { TaskCreateInput } from '../types/TaskCreateInput'
 import { Button } from './Button'
 import { FormikInput } from './FormikInput'
-import { Task } from '../types/Task'
 
 interface FormValues {
   text: string
@@ -24,26 +24,20 @@ export const TaskNew: React.FC<Props> = ({ onCreateTask, projectId }) => {
   const [adding, setAdding] = useState(false)
   const [inputRef, setInputFocus] = useAutoFocus()
 
-  const form = useFormik({
-    initialValues: {
-      text: '',
-    },
-    validationSchema,
-    async onSubmit(values: FormValues) {
-      let createTaskInput: TaskCreateInput = values
+  const onSubmit = async (values: FormValues) => {
+    let createTaskInput: TaskCreateInput = values
 
-      if (typeof projectId !== 'undefined') {
-        createTaskInput = {
-          ...createTaskInput,
-          projectId,
-        }
+    if (typeof projectId !== 'undefined') {
+      createTaskInput = {
+        ...createTaskInput,
+        projectId,
       }
+    }
 
-      if (onCreateTask) {
-        await onCreateTask(createTaskInput).finally(() => setAdding(false))
-      }
-    },
-  })
+    if (onCreateTask) {
+      await onCreateTask(createTaskInput).finally(() => setAdding(false))
+    }
+  }
 
   useEffect(() => {
     if (adding) {
@@ -54,15 +48,23 @@ export const TaskNew: React.FC<Props> = ({ onCreateTask, projectId }) => {
   return (
     <div>
       {adding && (
-        <form onSubmit={form.handleSubmit}>
-          <FormikInput
-            className="w-full"
-            form={form}
-            name="text"
-            placeholder="Enter to submit"
-            ref={inputRef}
-          />
-        </form>
+        <Formik
+          initialValues={{ text: '' }}
+          validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {({ handleSubmit }) => (
+            <form onSubmit={handleSubmit}>
+              <FormikInput
+                name="text"
+                className="w-full"
+                placeholder="Enter to submit"
+                ref={inputRef}
+                onBlur={() => setAdding(false)}
+              />
+            </form>
+          )}
+        </Formik>
       )}
       {!adding && <Button onClick={() => setAdding(true)}>Add new task</Button>}
     </div>
