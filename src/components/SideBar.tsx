@@ -9,18 +9,21 @@ import { Query } from './Query'
 import { SideBarElement } from './SideBarElement'
 import { SideBarHeading } from './SideBarHeading'
 
-const projectsQuery = loader('../queries/projects.graphql')
+const projectsGraphqlQuery = loader('../queries/projects.graphql')
 
 export const SideBar: React.FC = () => {
-  const query = useQuery(projectsQuery)
+  const projectsQuery = useQuery(projectsGraphqlQuery)
   const history = useHistory()
 
   return (
-    <Query query={query}>
-      {({ projects }) => (
+    <Query query={projectsQuery}>
+      {({ projects, inbox }) => (
         <div className="space-y-10">
           <div className="">
-            <SideBarElement title="Inbox">
+            <SideBarElement
+              title={inbox.name}
+              onClick={() => history.push(`/projects/${inbox.id}`)}
+            >
               <IoIosDocument className="inline" size="1.5rem" />
             </SideBarElement>
             <SideBarElement title="Today">
@@ -42,7 +45,7 @@ export const SideBar: React.FC = () => {
             ))}
           </div>
 
-          <ProjectNew onProjectAdded={() => query.refetch()} />
+          <ProjectNew onProjectAdded={() => projectsQuery.refetch()} />
         </div>
       )}
     </Query>
