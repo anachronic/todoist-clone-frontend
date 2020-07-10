@@ -26,7 +26,10 @@ export const SideBar: React.FC = () => {
             >
               <IoIosDocument className="inline" size="1.5rem" />
             </SideBarElement>
-            <SideBarElement title="Today">
+            <SideBarElement
+              title="Today"
+              onClick={() => history.push('/today')}
+            >
               <IoIosDocument className="inline" size="1.5rem" />
             </SideBarElement>
           </div>
