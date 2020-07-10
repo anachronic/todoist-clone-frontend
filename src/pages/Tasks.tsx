@@ -5,7 +5,12 @@ import { TaskNew } from '../components/TaskNew'
 import { useTasks } from '../hooks/useTasks'
 
 const Tasks: React.FC = () => {
-  const { queryResult, onCompleteTask, onCreateTask } = useTasks({
+  const {
+    queryResult,
+    onCompleteTask,
+    onCreateTask,
+    onScheduleTask,
+  } = useTasks({
     done: false,
   })
 
@@ -18,7 +23,11 @@ const Tasks: React.FC = () => {
     >
       {(data) => (
         <div className="mx-5">
-          <TaskList tasks={data.tasks} onCompleteTask={onCompleteTask} />
+          <TaskList
+            tasks={data.tasks}
+            onCompleteTask={onCompleteTask}
+            onScheduleTask={onScheduleTask}
+          />
           <div>
             <TaskNew onCreateTask={onCreateTask} />
           </div>

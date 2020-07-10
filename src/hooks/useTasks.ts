@@ -6,6 +6,7 @@ import { TaskFilter } from '../types/TaskFilter'
 
 const tasksQuery = loader('../queries/tasks.graphql')
 const completeTaskMutation = loader('../queries/completeTask.graphql')
+const scheduleTaskMutation = loader('../queries/scheduleTask.graphql')
 const createTaskMutation = loader('../queries/createTask.graphql')
 
 // This feels like a hack just to get typescript types right...
@@ -26,17 +27,25 @@ const useCreateTaskMutation = () => {
   )
 }
 
+const useScheduleTaskMutation = () => {
+  return useMutation<Task, { id: number; schedule: string }>(
+    scheduleTaskMutation
+  )
+}
+
 type UseTasksHookResult = {
   completeTask: ReturnType<typeof useCompleteTaskMutation>[0]
   queryResult: ReturnType<typeof useTaskQuery>
   onCompleteTask: (task: Task) => Promise<Task | undefined>
   onCreateTask: (task: TaskCreateInput) => Promise<Task | undefined>
+  onScheduleTask: (id: number, schedule: Date) => Promise<Task | undefined>
 }
 
 export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
   const queryResult = useTaskQuery(queryVariables)
   const [completeTask] = useCompleteTaskMutation()
   const [createTask] = useCreateTaskMutation()
+  const [scheduleTask] = useScheduleTaskMutation()
 
   const onCompleteTask = async (task: Task) => {
     const { data } = await completeTask({
@@ -56,10 +65,20 @@ export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
     return data
   }
 
+  const onScheduleTask = async (id: number, schedule: Date) => {
+    const { data } = await scheduleTask({
+      variables: { id, schedule: schedule.toJSON() },
+    })
+    await queryResult.refetch()
+
+    return data
+  }
+
   return {
     completeTask,
     queryResult,
     onCompleteTask,
     onCreateTask,
+    onScheduleTask,
   }
 }

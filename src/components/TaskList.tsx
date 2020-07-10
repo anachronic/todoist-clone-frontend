@@ -7,16 +7,27 @@ import { useToast } from '../hooks/useToast'
 interface Props {
   tasks: Task[]
   onCompleteTask?: (task: Task) => Promise<Task | undefined>
+  onScheduleTask?: (id: number, date: Date) => Promise<Task | undefined>
 }
 
-export const TaskList: React.FC<Props> = ({ tasks, onCompleteTask }) => {
+export const TaskList: React.FC<Props> = ({
+  tasks,
+  onCompleteTask,
+  onScheduleTask,
+}) => {
   const startToast = useToast()
+
+  const scheduleForToday = async (id: number) => {
+    if (onScheduleTask) {
+      onScheduleTask(id, new Date())
+    }
+  }
 
   return (
     <div className="divide-y divide-gray-400">
       {tasks.map((task) => {
         return (
-          <div key={task.id} className="py-2 flex flex-row">
+          <div key={task.id} className="py-2 flex flex-row items-center">
             <Button
               onClick={async () => {
                 if (onCompleteTask) {
@@ -30,7 +41,10 @@ export const TaskList: React.FC<Props> = ({ tasks, onCompleteTask }) => {
             >
               Complete
             </Button>
-            <span className="ml-3">{task.text}</span>
+            <div className="ml-3 flex-grow">{task.text}</div>
+            <button onClick={() => scheduleForToday(task.id)}>
+              Schedule for today
+            </button>
           </div>
         )
       })}
