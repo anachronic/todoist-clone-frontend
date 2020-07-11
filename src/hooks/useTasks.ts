@@ -59,7 +59,13 @@ export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
   }
 
   const onCreateTask = async (task: TaskCreateInput) => {
-    const { data } = await createTask({ variables: task })
+    const { projectId } = queryVariables
+    const { data } = await createTask({
+      variables: {
+        ...task,
+        projectId,
+      },
+    })
     await queryResult.refetch()
 
     return data
