@@ -2,7 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { Formik } from 'formik'
 import { loader } from 'graphql.macro'
 import React from 'react'
-import { IoIosRefresh } from 'react-icons/io'
+import { FiRotateCcw } from 'react-icons/fi'
 import { Link, useHistory } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { FormikInput } from '../components/FormikInput'
@@ -31,8 +31,8 @@ const Login: React.FC = () => {
   })
 
   return (
-    <div className="flex">
-      <div className="w-2/6 m-auto">
+    <div className="row mt5">
+      <div className="centered">
         <Formik
           initialValues={{
             email: '',
@@ -42,28 +42,26 @@ const Login: React.FC = () => {
         >
           {({ handleSubmit }) => (
             <form onSubmit={handleSubmit} className="px-5 py-8">
-              <div>
-                <FormikInput type="email" name="email" placeholder="email" />
-              </div>
+              <FormikInput type="email" name="email" placeholder="email" />
+
+              <FormikInput
+                type="password"
+                name="password"
+                placeholder="password"
+              />
 
               <div>
-                <FormikInput
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                />
-              </div>
-
-              <div>
-                <Button type="submit">
-                  {loading && (
-                    <IoIosRefresh className="inline icon-spin mr-1" />
-                  )}
+                <Button
+                  type="submit"
+                  className="inline-flex row vcentered"
+                  disabled={loading}
+                >
+                  {loading && <FiRotateCcw className="inline icon-spin mr2" />}
                   <span>Login</span>
                 </Button>
               </div>
 
-              <div>
+              <div className="mt4">
                 {`Don't`} have an account? <Link to="/signup">Sign up!</Link>
               </div>
             </form>

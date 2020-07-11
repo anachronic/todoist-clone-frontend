@@ -1,34 +1,29 @@
-import React from 'react'
+import classNames from 'classnames'
+import React, { forwardRef, HTMLProps, Ref } from 'react'
 
-interface Props {
-  type?: 'button' | 'submit' | 'reset'
-  className?: string
-  [key: string]: unknown
+interface Props extends HTMLProps<HTMLButtonElement> {
+  type?: 'submit' | 'reset' | 'button'
+  variant?: 'primary' | 'warning' | 'danger'
 }
 
-export const Button: React.FC<Props> = ({
-  children,
-  type = 'button',
-  className,
-  ...forward
-}) => {
-  const classNames = [
-    'bg-blue-600',
-    'hover:bg-blue-500',
-    'text-gray-200',
-    'px-2',
-    'py-1',
-    'rounded',
-    'items-center',
-    'flex',
-    'inline',
-    'flex-shrink',
-    ...(className || '').split(' '),
-  ]
-
+export const Button = forwardRef(function Button(
+  {
+    type = 'button',
+    variant = 'primary',
+    className,
+    children,
+    ...props
+  }: Props,
+  ref: Ref<HTMLButtonElement>
+) {
   return (
-    <button type={type} className={classNames.join(' ')} {...forward}>
+    <button
+      ref={ref}
+      type={type}
+      className={classNames('button', variant, className)}
+      {...props}
+    >
       {children}
     </button>
   )
-}
+})

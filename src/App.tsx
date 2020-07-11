@@ -4,7 +4,7 @@ import 'mobx-react-lite/batchingForReactDom'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { apolloClient } from './apollo'
-import './assets/styles.css'
+import './assets/styles.scss'
 import { SideBar } from './components/SideBar'
 import { TopBar } from './components/TopBar'
 import { useAuthStore } from './hooks'
@@ -25,20 +25,11 @@ export const App: React.FC = () => {
         <div>
           <TopBar className="shadow-xl" />
         </div>
-        <div className="flex flex-row">
+        <div className="row">
           <Observer>
-            {() => {
-              if (!authStore.isAuthenticated) {
-                return <></>
-              }
-              return (
-                <div className="ml-5 mt-10 min-w-1/5 pr-10">
-                  <SideBar />
-                </div>
-              )
-            }}
+            {() => (authStore.isAuthenticated ? <SideBar /> : <></>)}
           </Observer>
-          <div className="container mx-auto mt-3">
+          <div className="container mt3">
             <Routes />
           </div>
         </div>

@@ -2,6 +2,7 @@ import { useMutation } from '@apollo/react-hooks'
 import { Formik } from 'formik'
 import { loader } from 'graphql.macro'
 import React from 'react'
+import { FiRotateCcw } from 'react-icons/fi'
 import { useHistory } from 'react-router-dom'
 import * as yup from 'yup'
 import { Button } from '../components/Button'
@@ -41,8 +42,8 @@ const Signup: React.FC = () => {
   })
 
   return (
-    <div className="flex">
-      <div className="w-2/6 m-auto">
+    <div className="row mt5 signup-page">
+      <div className="centered">
         <Formik
           initialValues={{
             email: '',
@@ -54,35 +55,31 @@ const Signup: React.FC = () => {
           onSubmit={(values: FormValues) => register({ variables: values })}
         >
           {({ handleSubmit }) => (
-            <form onSubmit={handleSubmit} className="px-5 py-8">
-              <div>
-                <FormikInput name="name" placeholder="name" />
-              </div>
+            <form onSubmit={handleSubmit}>
+              <FormikInput name="name" placeholder="name" />
+
+              <FormikInput type="email" name="email" placeholder="email" />
+
+              <FormikInput
+                type="password"
+                name="password"
+                placeholder="password"
+              />
+
+              <FormikInput
+                type="password"
+                name="passwordConfirmation"
+                placeholder="passwordConfirmation"
+              />
 
               <div>
-                <FormikInput type="email" name="email" placeholder="email" />
-              </div>
-
-              <div>
-                <FormikInput
-                  type="password"
-                  name="password"
-                  placeholder="password"
-                />
-              </div>
-
-              <div>
-                <FormikInput
-                  type="password"
-                  name="passwordConfirmation"
-                  placeholder="passwordConfirmation"
-                />
-              </div>
-
-              <div>
-                <Button type="submit">
-                  {loading && <span>...</span>}
-                  <span>Sign Up</span>
+                <Button
+                  type="submit"
+                  className="inline-flex row vcentered"
+                  disabled={loading}
+                >
+                  {loading && <FiRotateCcw className="inline icon-spin mr2" />}
+                  <span>Sign up</span>
                 </Button>
               </div>
             </form>

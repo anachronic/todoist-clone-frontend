@@ -1,0 +1,65 @@
+@for $i from 1 through 5 {
+  .mx#{$i},
+  %mx#{$i} {
+    margin-left: #{$i * 0.25}rem;
+    margin-right: #{$i * 0.25}rem;
+  }
+
+  .my#{$i},
+  %my#{$i} {
+    margin-top: #{$i * 0.25}rem;
+    margin-bottom: #{$i * 0.25}rem;
+  }
+
+  .ml#{$i},
+  %ml#{$i} {
+    margin-left: #{$i * 0.25}rem;
+  }
+
+  .mr#{$i},
+  %mr#{$i} {
+    margin-right: #{$i * 0.25}rem;
+  }
+
+  .mt#{$i},
+  %mt#{$i} {
+    margin-top: #{$i * 0.25}rem;
+  }
+
+  .mb#{$i},
+  %mb#{$i} {
+    margin-bottom: #{$i * 0.25}rem;
+  }
+
+  .px#{$i},
+  %px#{$i} {
+    padding-left: #{$i * 0.25}rem;
+    padding-right: #{$i * 0.25}rem;
+  }
+
+  .py#{$i},
+  %py#{$i} {
+    padding-top: #{$i * 0.25}rem;
+    padding-bottom: #{$i * 0.25}rem;
+  }
+
+  .pl#{$i},
+  %pl#{$i} {
+    padding-left: #{$i * 0.25}rem;
+  }
+
+  .pr#{$i},
+  %pr#{$i} {
+    padding-right: #{$i * 0.25}rem;
+  }
+
+  .pt#{$i},
+  %pt#{$i} {
+    padding-top: #{$i * 0.25}rem;
+  }
+
+  .pb#{$i},
+  %pb#{$i} {
+    padding-bottom: #{$i * 0.25}rem;
+  }
+}

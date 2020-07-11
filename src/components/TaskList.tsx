@@ -27,7 +27,7 @@ export const TaskList: React.FC<Props> = ({
     <div className="divide-y divide-gray-400">
       {tasks.map((task) => {
         return (
-          <div key={task.id} className="py-2 flex flex-row items-center">
+          <div key={task.id} className="py2 row vcenter">
             <Button
               onClick={async () => {
                 if (onCompleteTask) {
@@ -41,7 +41,7 @@ export const TaskList: React.FC<Props> = ({
             >
               Complete
             </Button>
-            <div className="ml-3 flex-grow">{task.text}</div>
+            <div className="ml3 grow">{task.text}</div>
             <button onClick={() => scheduleForToday(task.id)}>
               Schedule for today
             </button>

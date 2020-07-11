@@ -1,0 +1,261 @@
+@import-normalize;
+@import './spacing';
+@import './_variables';
+@import './icons';
+
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin block {
+  display: block !important;
+}
+
+@mixin inline-block {
+  display: inline-block !important;
+}
+
+@mixin inline-flex {
+  display: inline-flex !important;
+}
+
+@mixin inline {
+  display: inline !important;
+}
+
+@mixin rounded {
+  border-radius: 0.25rem;
+}
+
+@mixin pointer {
+  cursor: pointer;
+}
+
+@mixin width($percentage) {
+  $width: percentage($percentage/100);
+  width: $width;
+}
+
+@mixin horizontal-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+  background: $body-bg;
+  color: $body-fg;
+  font-family: Avenir, Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  margin: 0;
+}
+
+.topbar {
+  background-color: $gray;
+  @include row;
+  @extend %px1;
+
+  .item {
+    @extend %px3;
+    @extend %py4;
+    font-size: 1.2em;
+
+    &:hover {
+      background-color: darken($color: $gray, $amount: 5%);
+    }
+  }
+
+  & a {
+    color: gainsboro;
+  }
+
+  & a:hover {
+    text-decoration: none;
+  }
+}
+
+.sidebar {
+  @extend %ml5;
+  @extend %mt2;
+  min-width: 20vh;
+  padding-right: 2.5rem;
+
+  & > div {
+    @extend %mt5;
+
+    & > div {
+      @extend %mt1;
+    }
+  }
+
+  .item {
+    @extend %ml2;
+  }
+
+  a {
+    @extend %px3;
+    @extend %py2;
+    @include rounded;
+    @include row;
+    align-items: center;
+    width: 100%;
+
+    &:hover {
+      background-color: darken($color: $body-bg, $amount: 3%);
+      text-decoration: none !important;
+    }
+
+    &.active {
+      background-color: $active;
+    }
+  }
+
+  .heading {
+    @extend %pb1;
+    @extend %mb1;
+    text-transform: uppercase;
+  }
+}
+
+.signup-page {
+  & > div {
+    @include width(30);
+  }
+  & form > div {
+    @include width(100);
+    @include horizontal-center;
+  }
+}
+
+.row {
+  @include row;
+
+  &.vcenter {
+    align-items: center;
+  }
+
+  &.grow,
+  & .grow {
+    flex-grow: 1;
+  }
+}
+
+div {
+  &.centered {
+    @include horizontal-center;
+  }
+}
+
+a {
+  color: darken($body-fg, 5%);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    color: $link-hover;
+  }
+}
+
+.button {
+  @extend %px2;
+  @extend %py1;
+  @include rounded;
+  @include pointer;
+  font-size: 1em;
+  color: #eee;
+
+  @each $name, $value in $colors-list {
+    &.#{$name} {
+      border: 2px solid darken($value, 10%);
+      background-color: #{$value};
+
+      &:hover {
+        background-color: darken($value, 5%);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+
+        &:hover {
+          background-color: $value;
+        }
+      }
+    }
+  }
+}
+
+.inline-block {
+  @include inline-block;
+}
+
+.inline {
+  @include inline;
+}
+
+.block {
+  @include block;
+}
+
+.container {
+  @include horizontal-center;
+  width: 100%;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+// text
+@each $name, $value in $colors-list {
+  .text-#{$name} {
+    color: #{$value};
+  }
+}
+
+@each $name, $value in $sizes-list {
+  .text-#{$name} {
+    font-size: #{$value};
+  }
+}
+
+// Forms
+
+.formik-input {
+  box-sizing: border-box;
+
+  .input {
+    @extend %px2;
+    @extend %py1;
+    @include rounded;
+    font-size: inherit;
+    border: 1px solid $gray;
+    box-sizing: border-box;
+
+    @each $name, $value in $colors-list {
+      &.#{$name} {
+        border: 1px solid $value;
+      }
+    }
+  }
+}

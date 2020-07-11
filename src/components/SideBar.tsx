@@ -1,50 +1,71 @@
 import { useQuery } from '@apollo/react-hooks'
+import classNames from 'classnames'
 import { loader } from 'graphql.macro'
 import React from 'react'
 import { IoIosDocument } from 'react-icons/io'
-import { useHistory } from 'react-router-dom'
+import { FiInbox, FiCalendar } from 'react-icons/fi'
+import { Link, useRouteMatch } from 'react-router-dom'
 import { Project } from '../types/Project'
 import { ProjectNew } from './ProjectNew'
 import { Query } from './Query'
-import { SideBarElement } from './SideBarElement'
-import { SideBarHeading } from './SideBarHeading'
 
 const projectsGraphqlQuery = loader('../queries/projects.graphql')
 
 export const SideBar: React.FC = () => {
   const projectsQuery = useQuery(projectsGraphqlQuery)
-  const history = useHistory()
+  const matchProjects = useRouteMatch<{ id: string }>({
+    path: '/projects/:id',
+  })
+  const matchToday = useRouteMatch<{ id: string }>({
+    path: '/today',
+  })
 
   return (
     <Query query={projectsQuery}>
       {({ projects, inbox }) => (
-        <div className="space-y-10">
-          <div className="">
-            <SideBarElement
-              title={inbox.name}
-              onClick={() => history.push(`/projects/${inbox.id}`)}
-            >
-              <IoIosDocument className="inline" size="1.5rem" />
-            </SideBarElement>
-            <SideBarElement
-              title="Today"
-              onClick={() => history.push('/today')}
-            >
-              <IoIosDocument className="inline" size="1.5rem" />
-            </SideBarElement>
+        <div className="sidebar">
+          <div>
+            <div className="item">
+              <Link
+                to={`/projects/${inbox.id}`}
+                className={classNames({
+                  active: `${inbox.id}` === matchProjects?.params.id,
+                })}
+              >
+                <FiInbox className="inline" size="1.5rem" />
+                <span className="ml2">{inbox.name}</span>
+              </Link>
+            </div>
+            <div className="item">
+              <Link
+                to="/today"
+                className={classNames({
+                  active: matchToday,
+                })}
+              >
+                <FiCalendar className="inline" size="1.5rem" />
+                <span className="ml2">Today</span>
+              </Link>
+            </div>
           </div>
 
-          <div className="">
-            <SideBarHeading title="Projects" />
+          <div>
+            <div className="heading">
+              <span className="pl3">Projects</span>
+            </div>
 
             {projects.map((project: Project) => (
-              <SideBarElement
-                key={project.id}
-                title={project.name}
-                onClick={() => history.push(`/projects/${project.id}`)}
-              >
-                <IoIosDocument className="inline" size="1.5rem" />
-              </SideBarElement>
+              <div className="item" key={project.id}>
+                <Link
+                  to={`/projects/${project.id}`}
+                  className={classNames({
+                    active: matchProjects?.params.id === `${project.id}`,
+                  })}
+                >
+                  <IoIosDocument className="inline" size="1.5rem" />
+                  <span className="ml2">{project.name}</span>
+                </Link>
+              </div>
             ))}
           </div>
 
