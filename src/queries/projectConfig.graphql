@@ -1,0 +1,14 @@
+query projectConfig($projectId: Float!) {
+  projectColors {
+    id
+    name
+    red
+    blue
+    green
+    hex
+  }
+  project(id: $projectId) {
+    id
+    name
+  }
+}

@@ -13,7 +13,6 @@ const createTaskMutation = loader('../queries/createTask.graphql')
 const useTaskQuery = (queryVariables: TaskFilter) => {
   return useQuery<Task[], TaskFilter>(tasksQuery, {
     variables: queryVariables,
-    fetchPolicy: 'network-only',
   })
 }
 
@@ -73,7 +72,7 @@ export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
 
   const onScheduleTask = async (id: number, schedule: Date) => {
     const { data } = await scheduleTask({
-      variables: { id, schedule: schedule.toJSON() },
+      variables: { id: +id, schedule: schedule.toJSON() },
     })
     await queryResult.refetch()
 

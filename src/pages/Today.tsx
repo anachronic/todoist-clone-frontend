@@ -8,6 +8,7 @@ const Today: React.FC = () => {
         done: false,
         forToday: true,
       }}
+      title="Tasks for today"
     />
   )
 }

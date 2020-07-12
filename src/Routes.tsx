@@ -1,10 +1,8 @@
 import React, { lazy, Suspense } from 'react'
-import { Route, Switch, useLocation } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { LazyLoad } from './components/LazyLoad'
 
 export const Routes: React.FC = () => {
-  const location = useLocation()
-
   return (
     <Switch>
       <Suspense fallback={<LazyLoad />}>
@@ -35,9 +33,15 @@ export const Routes: React.FC = () => {
           component={lazy(() => import('./pages/Signup'))}
         />
         <Route
+          exact
           path="/projects/:id"
           component={lazy(() => import('./pages/ProjectTasks'))}
-          key={location.pathname}
+          key="project-tasks"
+        />
+        <Route
+          path="/projects/:id/config"
+          component={lazy(() => import('./pages/ProjectConfig'))}
+          key="project-config"
         />
       </Suspense>
     </Switch>

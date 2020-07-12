@@ -2,6 +2,9 @@ query Projects {
   projects {
     id
     name
+    color {
+      hex
+    }
   }
   inbox {
     id

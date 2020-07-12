@@ -7,9 +7,10 @@ import { TaskNew } from './TaskNew'
 
 interface Props {
   filters: TaskFilter
+  title?: string
 }
 
-export const TasksView: React.FC<Props> = ({ filters }) => {
+export const TasksView: React.FC<Props> = ({ filters, title }) => {
   const {
     queryResult,
     onCompleteTask,
@@ -25,16 +26,19 @@ export const TasksView: React.FC<Props> = ({ filters }) => {
       }
     >
       {(data) => (
-        <div className="mx-5">
-          <TaskList
-            tasks={data.tasks}
-            onCompleteTask={onCompleteTask}
-            onScheduleTask={onScheduleTask}
-          />
-          <div>
-            <TaskNew onCreateTask={onCreateTask} />
+        <>
+          {title && <h1>{title}</h1>}
+          <div className="mx-5">
+            <TaskList
+              tasks={data.tasks}
+              onCompleteTask={onCompleteTask}
+              onScheduleTask={onScheduleTask}
+            />
+            <div>
+              <TaskNew onCreateTask={onCreateTask} />
+            </div>
           </div>
-        </div>
+        </>
       )}
     </Query>
   )

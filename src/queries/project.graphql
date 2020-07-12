@@ -1,0 +1,9 @@
+query Project($id: Float!) {
+  project(id: $id) {
+    id
+    name
+    color {
+      hex
+    }
+  }
+}

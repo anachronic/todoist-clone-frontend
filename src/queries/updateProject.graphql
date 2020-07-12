@@ -1,0 +1,10 @@
+mutation updateProject($id: Float!, $name: String, $colorId: Float) {
+  updateProject(project: { id: $id, name: $name, colorId: $colorId }) {
+    id
+    name
+    color {
+      id
+      hex
+    }
+  }
+}

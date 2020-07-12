@@ -164,13 +164,31 @@ a {
   font-size: 1em;
   color: #eee;
 
+  &.fullwidth {
+    @include width(100);
+  }
+
   @each $name, $value in $colors-list {
     &.#{$name} {
-      border: 2px solid darken($value, 10%);
-      background-color: #{$value};
+      &:not(.outlined) {
+        background-color: #{$value};
+        border: 2px solid darken($value, 10%);
+      }
 
-      &:hover {
+      &.outlined {
+        background-color: inherit;
+        border: 2px solid $value;
+        color: $gray;
+      }
+
+      &:not(.outlined):hover {
         background-color: darken($value, 5%);
+      }
+
+      &.outlined:hover {
+        // opacity: 0.5;
+        background-color: rgb(223, 223, 223);
+        color: $gray;
       }
 
       &:disabled {
@@ -240,7 +258,6 @@ a {
 }
 
 // Forms
-
 .formik-input {
   box-sizing: border-box;
 
@@ -258,4 +275,10 @@ a {
       }
     }
   }
+}
+
+.project-config {
+  @include row;
+  @include width(70);
+  @include horizontal-center();
 }
