@@ -3,6 +3,7 @@ import React from 'react'
 import { Button } from './Button'
 import { Task } from '../types/Task'
 import { useToast } from '../hooks/useToast'
+import { FiClock } from 'react-icons/fi'
 
 interface Props {
   tasks: Task[]
@@ -42,9 +43,14 @@ export const TaskList: React.FC<Props> = ({
               Complete
             </Button>
             <div className="ml3 grow">{task.text}</div>
-            <button onClick={() => scheduleForToday(task)}>
-              Schedule for today
-            </button>
+            <Button
+              variant="info"
+              outlined
+              className="row vcenter"
+              onClick={() => scheduleForToday(task)}
+            >
+              <FiClock />
+            </Button>
           </div>
         )
       })}

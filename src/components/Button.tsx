@@ -3,7 +3,7 @@ import React, { forwardRef, HTMLProps, Ref } from 'react'
 
 interface Props extends HTMLProps<HTMLButtonElement> {
   type?: 'submit' | 'reset' | 'button'
-  variant?: 'primary' | 'warning' | 'danger' | 'accent'
+  variant?: 'primary' | 'warning' | 'danger' | 'accent' | 'info'
   outlined?: boolean
   slim?: boolean
 }
