@@ -1,5 +1,5 @@
 query tasks($done: Boolean = null, $projectId: String, $forToday: Boolean) {
-  tasks(done: $done, projectId: $projectId, forToday: $forToday) {
+  tasks(filters: { done: $done, projectId: $projectId, forToday: $forToday }) {
     id
     text
     done
