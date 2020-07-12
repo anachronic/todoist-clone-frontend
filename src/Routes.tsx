@@ -35,7 +35,7 @@ export const Routes: React.FC = () => {
         <Route
           exact
           path="/projects/:id"
-          component={lazy(() => import('./pages/ProjectTasks'))}
+          component={lazy(() => import('./pages/Project'))}
           key="project-tasks"
         />
         <Route

@@ -1,4 +1,4 @@
-mutation scheduleTask($id: Float!, $schedule: ISODate) {
+mutation scheduleTask($id: String!, $schedule: ISODate) {
   updateTask(task: { id: $id, schedule: $schedule }) {
     id
     text

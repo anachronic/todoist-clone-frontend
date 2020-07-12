@@ -1,9 +1,15 @@
-query Project($id: Float!) {
+query Project($id: String!) {
   project(id: $id) {
     id
     name
     color {
       hex
+    }
+    tasks(done: false) {
+      id
+      done
+      text
+      schedule
     }
   }
 }

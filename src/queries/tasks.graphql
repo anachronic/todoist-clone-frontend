@@ -1,4 +1,4 @@
-query tasks($done: Boolean = null, $projectId: Float, $forToday: Boolean) {
+query tasks($done: Boolean = null, $projectId: String, $forToday: Boolean) {
   tasks(done: $done, projectId: $projectId, forToday: $forToday) {
     id
     text

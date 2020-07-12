@@ -1,4 +1,4 @@
-mutation updateProject($id: Float!, $name: String, $colorId: Float) {
+mutation updateProject($id: String!, $name: String, $colorId: Float) {
   updateProject(project: { id: $id, name: $name, colorId: $colorId }) {
     id
     name

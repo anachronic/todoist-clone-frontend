@@ -24,8 +24,9 @@ export const TasksView: React.FC<Props> = ({ filters, title }) => {
       isEmptyFn={(data) =>
         !Array.isArray(data.tasks) || data.tasks.length === 0
       }
+      emptyRender={<div>Nothing to show here</div>}
     >
-      {(data) => (
+      {(data, empty) => (
         <>
           {title && <h1>{title}</h1>}
           <div className="mx-5">
@@ -34,7 +35,8 @@ export const TasksView: React.FC<Props> = ({ filters, title }) => {
               onCompleteTask={onCompleteTask}
               onScheduleTask={onScheduleTask}
             />
-            <div>
+            {empty}
+            <div className="mt3">
               <TaskNew onCreateTask={onCreateTask} />
             </div>
           </div>

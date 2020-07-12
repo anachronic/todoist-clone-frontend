@@ -17,7 +17,7 @@ const useTaskQuery = (queryVariables: TaskFilter) => {
 }
 
 const useCompleteTaskMutation = () => {
-  return useMutation<Task, { id: number }>(completeTaskMutation)
+  return useMutation<Task, { id: string }>(completeTaskMutation)
 }
 
 const useCreateTaskMutation = () => {
@@ -27,7 +27,7 @@ const useCreateTaskMutation = () => {
 }
 
 const useScheduleTaskMutation = () => {
-  return useMutation<Task, { id: number; schedule: string }>(
+  return useMutation<Task, { id: string; schedule: string }>(
     scheduleTaskMutation
   )
 }
@@ -37,7 +37,7 @@ type UseTasksHookResult = {
   queryResult: ReturnType<typeof useTaskQuery>
   onCompleteTask: (task: Task) => Promise<Task | undefined>
   onCreateTask: (task: TaskCreateInput) => Promise<Task | undefined>
-  onScheduleTask: (id: number, schedule: Date) => Promise<Task | undefined>
+  onScheduleTask: (task: Task, schedule: Date) => Promise<Task | undefined>
 }
 
 export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
@@ -49,7 +49,7 @@ export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
   const onCompleteTask = async (task: Task) => {
     const { data } = await completeTask({
       variables: {
-        id: +task.id,
+        id: task.id,
       },
     })
     await queryResult.refetch()
@@ -70,9 +70,9 @@ export function useTasks(queryVariables: TaskFilter): UseTasksHookResult {
     return data
   }
 
-  const onScheduleTask = async (id: number, schedule: Date) => {
+  const onScheduleTask = async (task: Task, schedule: Date) => {
     const { data } = await scheduleTask({
-      variables: { id: +id, schedule: schedule.toJSON() },
+      variables: { id: task.id, schedule: schedule.toJSON() },
     })
     await queryResult.refetch()
 

@@ -7,10 +7,16 @@ const NProgress = require('nprogress')
 interface Props {
   query: any
   isEmptyFn?: (data: any) => boolean
-  children: (data: any) => JSX.Element
+  children: (data: any, empty?: JSX.Element | null) => JSX.Element
+  emptyRender?: JSX.Element | null
 }
 
-export const Query = ({ children, query, isEmptyFn }: Props): JSX.Element => {
+export const Query = ({
+  children,
+  query,
+  isEmptyFn,
+  emptyRender,
+}: Props): JSX.Element => {
   useEffect(() => {
     NProgress.start()
   }, [])
@@ -32,9 +38,10 @@ export const Query = ({ children, query, isEmptyFn }: Props): JSX.Element => {
     return <></>
   }
 
-  if (isEmptyFn && isEmptyFn(query.data)) {
+  const dataIsEmpty = !!isEmptyFn && isEmptyFn(query.data)
+  if (dataIsEmpty && !emptyRender) {
     return <div>Nothing to show here</div>
   }
 
-  return children(query.data)
+  return children(query.data, dataIsEmpty ? emptyRender : null)
 }

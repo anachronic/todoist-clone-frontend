@@ -6,8 +6,8 @@ import { useToast } from '../hooks/useToast'
 
 interface Props {
   tasks: Task[]
-  onCompleteTask?: (task: Task) => Promise<Task | undefined>
-  onScheduleTask?: (id: number, date: Date) => Promise<Task | undefined>
+  onCompleteTask?: (task: Task) => Promise<Task | void>
+  onScheduleTask?: (task: Task, date: Date) => Promise<Task | void>
 }
 
 export const TaskList: React.FC<Props> = ({
@@ -17,9 +17,9 @@ export const TaskList: React.FC<Props> = ({
 }) => {
   const startToast = useToast()
 
-  const scheduleForToday = async (id: number) => {
+  const scheduleForToday = async (task: Task) => {
     if (onScheduleTask) {
-      onScheduleTask(id, new Date())
+      onScheduleTask(task, new Date())
     }
   }
 
@@ -42,7 +42,7 @@ export const TaskList: React.FC<Props> = ({
               Complete
             </Button>
             <div className="ml3 grow">{task.text}</div>
-            <button onClick={() => scheduleForToday(task.id)}>
+            <button onClick={() => scheduleForToday(task)}>
               Schedule for today
             </button>
           </div>

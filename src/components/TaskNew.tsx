@@ -16,8 +16,8 @@ const validationSchema = yup.object().shape({
 })
 
 interface Props {
-  onCreateTask?: (task: TaskCreateInput) => Promise<Task | undefined>
-  projectId?: number
+  onCreateTask?: (task: TaskCreateInput) => Promise<Task | void>
+  projectId?: string
 }
 
 export const TaskNew: React.FC<Props> = ({ onCreateTask, projectId }) => {

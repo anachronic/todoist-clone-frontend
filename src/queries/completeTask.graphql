@@ -1,4 +1,4 @@
-mutation completeTask($id: Float!) {
+mutation completeTask($id: String!) {
   updateTask(task: { id: $id, done: true }) {
     id
     text
