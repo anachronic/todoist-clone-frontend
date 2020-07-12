@@ -1,9 +1,10 @@
 import React from 'react'
-import { useRouteMatch } from 'react-router-dom'
+import { useRouteMatch, Link } from 'react-router-dom'
 import { Query } from '../components/Query'
 import { TaskList } from '../components/TaskList'
 import { TaskNew } from '../components/TaskNew'
 import { useProject } from '../hooks/useProject'
+import { FiSettings } from 'react-icons/fi'
 
 const Project: React.FC = () => {
   const match = useRouteMatch<{ id: string }>()
@@ -21,7 +22,12 @@ const Project: React.FC = () => {
     >
       {({ project }, empty) => (
         <>
-          <h1>{project.name}</h1>
+          <h1 className="row vcenter">
+            <Link to={`/projects/${match.params.id}/config`}>
+              <FiSettings size="2rem" />
+            </Link>
+            <span className="ml2">{project.name}</span>
+          </h1>
 
           <TaskList
             tasks={project.tasks}

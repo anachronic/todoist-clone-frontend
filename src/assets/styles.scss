@@ -144,6 +144,12 @@ div {
   &.centered {
     @include horizontal-center;
   }
+
+  &.spaced {
+    div:not(:last-child) {
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 a {
@@ -179,14 +185,21 @@ a {
         background-color: inherit;
         border: 2px solid $value;
         color: $gray;
+
+        &.slim {
+          border: 1px solid darken($value, 10%);
+        }
       }
 
       &:not(.outlined):hover {
         background-color: darken($value, 5%);
+
+        &.slim {
+          border: 1px solid darken($value, 10%);
+        }
       }
 
       &.outlined:hover {
-        // opacity: 0.5;
         background-color: rgb(223, 223, 223);
         color: $gray;
       }

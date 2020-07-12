@@ -18,7 +18,7 @@ const ProjectConfig: React.FC = () => {
     configQuery,
     {
       fetchPolicy: 'cache-first',
-      variables: { projectId: match?.params.id ? +match.params.id : null },
+      variables: { projectId: match?.params.id ? match.params.id : null },
     }
   )
   const [updateProject] = useMutation<Project>(updateMutation)
@@ -27,43 +27,39 @@ const ProjectConfig: React.FC = () => {
     <Query query={query} isEmptyFn={() => false}>
       {({ project, projectColors }) => (
         <div className="container">
-          <Button outlined>test</Button>
-          <div className="row vcentered">
-            <div>
-              <strong>Project name</strong>
-            </div>
+          <h1>{project.name}</h1>
 
-            <div>{project.name}</div>
-          </div>
-          <div className="row vcentered">
+          <div className="row">
             <div>
-              <strong>Choose a color for this project</strong>
-            </div>
-            <div>
-              {projectColors.map((projectColor: ProjectColor) => (
-                <div key={projectColor.id}>
-                  <Button
-                    outlined
-                    variant="accent"
-                    className="row vcentered fullwidth"
-                    onClick={async () => {
-                      await updateProject({
-                        variables: {
-                          id: +project.id,
-                          colorId: +projectColor.id,
-                        },
-                      })
-                    }}
-                  >
-                    <FiCircle
-                      style={{
-                        fill: `#${projectColor.hex}`,
+              <h4>Select a color for this project</h4>
+
+              <div className="spaced">
+                {projectColors.map((projectColor: ProjectColor) => (
+                  <div key={projectColor.id}>
+                    <Button
+                      outlined
+                      slim
+                      variant="accent"
+                      className="row vcentered fullwidth"
+                      onClick={async () => {
+                        await updateProject({
+                          variables: {
+                            id: project.id,
+                            colorId: projectColor.id,
+                          },
+                        })
                       }}
-                    />
-                    <span>{projectColor.name}</span>
-                  </Button>
-                </div>
-              ))}
+                    >
+                      <FiCircle
+                        style={{
+                          fill: `#${projectColor.hex}`,
+                        }}
+                      />
+                      <span>{projectColor.name}</span>
+                    </Button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
