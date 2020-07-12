@@ -1,8 +1,8 @@
 import { useQuery, useMutation } from '@apollo/react-hooks'
 import { loader } from 'graphql.macro'
 import React from 'react'
-import { FiCircle } from 'react-icons/fi'
-import { useRouteMatch } from 'react-router-dom'
+import { FiCircle, FiArrowLeft } from 'react-icons/fi'
+import { useRouteMatch, Link } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { Query } from '../components/Query'
 import { Project } from '../types/Project'
@@ -27,7 +27,14 @@ const ProjectConfig: React.FC = () => {
     <Query query={query} isEmptyFn={() => false}>
       {({ project, projectColors }) => (
         <div className="container">
-          <h1>{project.name}</h1>
+          <h1 className="row vcenter">
+            {match && (
+              <Link to={`/projects/${match.params.id}`}>
+                <FiArrowLeft size="2rem" />
+              </Link>
+            )}
+            <span className="ml2">{project.name}</span>
+          </h1>
 
           <div className="row">
             <div>
