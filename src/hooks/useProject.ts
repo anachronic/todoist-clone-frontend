@@ -6,6 +6,7 @@ import { Task } from '../types/Task'
 import { TaskCreateInput } from '../types/TaskCreateInput'
 
 const projectQuery = loader('../queries/project.graphql')
+const tasksQuery = loader('../queries/tasks.graphql')
 const completeTaskMutation = loader('../queries/completeTask.graphql')
 const scheduleTaskMutation = loader('../queries/scheduleTask.graphql')
 const createTaskMutation = loader('../queries/createTask.graphql')
@@ -102,7 +103,69 @@ export const useProject: UseProjectHook = (projectId) => {
     scheduleTask: async (task: Task, schedule: Date) => {
       await scheduleTask({
         variables: { schedule: schedule.toJSON(), id: task.id },
-        update: updateProjectCache(projectId, 'updateTask'),
+        update: (store: any, { data }: any) => {
+          if (!data) {
+            return
+          }
+
+          // update project query
+          const cachedQuery = store.readQuery({
+            query: projectQuery,
+            variables: { id: projectId },
+          })
+
+          if (!cachedQuery) {
+            return
+          }
+          const { project } = cachedQuery
+
+          store.writeQuery({
+            query: projectQuery,
+            variables: { id: projectId },
+            data: {
+              project: produce(project, (draft: Project) => {
+                const index = draft.tasks.findIndex(
+                  (task: Task) => data.updateTask.id === task.id
+                )
+                draft.tasks[index] = data.updateTask
+              }),
+              data,
+            },
+          })
+
+          // update today query
+          try {
+            const cachedTasksQuery = store.readQuery({
+              query: tasksQuery,
+              variables: { done: false, forToday: true },
+            })
+
+            if (!cachedTasksQuery) {
+              return
+            }
+
+            const { tasks } = cachedTasksQuery
+
+            store.writeQuery({
+              query: tasksQuery,
+              variables: { done: false, forToday: true },
+              data: {
+                tasks: produce(tasks, (tasks: Array<any>) => {
+                  const index = tasks.findIndex(
+                    (task: Task) => data.updateTask.id === task.id
+                  )
+                  if (index >= 0) {
+                    tasks[index] = data.updateTask
+                  } else {
+                    tasks.unshift(data.updateTask)
+                  }
+                }),
+              },
+            })
+          } catch (e) {
+            return
+          }
+        },
       })
     },
   }
