@@ -41,7 +41,7 @@
     "test": "react-scripts test --env=jsdom-fourteen",
     "eject": "react-scripts eject",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
-    "ci:test": "CI=true yarn test"
+    "ci:test": "CI=true yarn test --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"

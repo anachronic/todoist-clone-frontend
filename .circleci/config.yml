@@ -12,3 +12,5 @@ jobs:
           steps:
             - run: yarn install --frozen-lockfile
       - run: yarn ci:test
+      - store_artifacts:
+          path: coverage
