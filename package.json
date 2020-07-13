@@ -70,5 +70,13 @@
     "node-sass": "^4.14.1",
     "prettier": "^2.0.5",
     "source-map-explorer": "^2.4.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "**/*tsx",
+      "!src/**/*.d.ts",
+      "!src/index.tsx",
+      "!<rootDir>/node_modules/"
+    ]
   }
 }
