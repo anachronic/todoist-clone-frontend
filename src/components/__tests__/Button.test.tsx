@@ -46,6 +46,40 @@ describe('The button component', () => {
     }
 
     expect(selector('.my-class')).not.toBeNull()
-    expect(selector('.bg-blue-600.hover\\:bg-blue-500.rounded')).not.toBeNull()
+  })
+
+  it('Accepts variant', async () => {
+    render(<Button variant="warning">some text</Button>)
+
+    const button = document.querySelector('.warning')
+    expect(button).not.toBeNull()
+  })
+
+  it('Can be outlined', async () => {
+    render(<Button slim>some text</Button>)
+
+    const button = document.querySelector('.slim')
+    expect(button).not.toBeNull()
+  })
+
+  it('Defaults variant to primery', async () => {
+    render(<Button>some text</Button>)
+
+    const button = document.querySelector('.primary')
+    expect(button).not.toBeNull()
+  })
+
+  it('Defults type to button', async () => {
+    render(<Button>some text</Button>)
+
+    const button = document.querySelector('.primary')
+    expect(button?.getAttribute('type')).toEqual('button')
+  })
+
+  it('Can be a submit button', async () => {
+    render(<Button type="submit">some text</Button>)
+
+    const button = document.querySelector('.primary')
+    expect(button?.getAttribute('type')).toEqual('submit')
   })
 })
