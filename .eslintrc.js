@@ -18,6 +18,7 @@ module.exports = {
     'no-console': process.env.NODE_ENV === 'production' ? 'on' : 'warn',
     'react/prop-types': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    '@typescript-eslint/no-non-null-assertion': 'off',
   },
   env: {
     node: true,
