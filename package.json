@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@apollo/react-testing": "^3.1.4",
     "@types/classnames": "^2.2.10",
     "@types/react-router-dom": "^5.1.5",
     "@types/yup": "^0.29.3",
