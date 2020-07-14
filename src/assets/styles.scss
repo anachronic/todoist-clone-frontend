@@ -1,46 +1,9 @@
 @import-normalize;
 @import './spacing';
 @import './_variables';
+@import './_mixins';
 @import './icons';
-
-@mixin row {
-  display: flex;
-  flex-direction: row;
-}
-
-@mixin block {
-  display: block !important;
-}
-
-@mixin inline-block {
-  display: inline-block !important;
-}
-
-@mixin inline-flex {
-  display: inline-flex !important;
-}
-
-@mixin inline {
-  display: inline !important;
-}
-
-@mixin rounded {
-  border-radius: 0.25rem;
-}
-
-@mixin pointer {
-  cursor: pointer;
-}
-
-@mixin width($percentage) {
-  $width: percentage($percentage/100);
-  width: $width;
-}
-
-@mixin horizontal-center {
-  margin-left: auto;
-  margin-right: auto;
-}
+@import './_functions';
 
 body {
   background: $body-bg;
@@ -294,4 +257,147 @@ a {
   @include row;
   @include width(70);
   @include horizontal-center();
+}
+
+.toast {
+  @include width(20);
+  @extend %px2;
+  @extend %py2;
+  @include rounded();
+  position: absolute;
+
+  &.bottom-center {
+    &.mounting {
+      animation-name: slide-up-from-bottom;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+
+    &.unmounting {
+      animation-name: slide-down-to-bottom;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.top-center {
+    &.mounting {
+      animation-name: slide-down-from-top;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+
+    &.unmounting {
+      animation-name: slide-up-to-top;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  &.top-right {
+    &.mounting {
+      animation-name: slide-left-from-right;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+
+    &.unmounting {
+      animation-name: slide-right-from-left;
+      animation-duration: 0.2s;
+      animation-fill-mode: forwards;
+    }
+  }
+
+  @each $name, $value in $colors-list {
+    &.#{$name} {
+      background-color: #{$value};
+      border: 2px solid darken($value, 10%);
+      color: findInvert($value);
+    }
+  }
+}
+
+// for top center toasts
+@keyframes slide-down-from-top {
+  from {
+    left: 50%;
+    top: 0px;
+    transform: translate(-50%, -100%);
+  }
+
+  to {
+    left: 50%;
+    top: 4rem;
+    transform: translate(-50%, 0px);
+  }
+}
+
+@keyframes slide-up-to-top {
+  to {
+    left: 50%;
+    top: 0px;
+    transform: translate(-50%, -100%);
+  }
+
+  from {
+    left: 50%;
+    top: 4rem;
+    transform: translate(-50%, 0px);
+  }
+}
+
+// for bottom center toasts
+@keyframes slide-up-from-bottom {
+  from {
+    left: 50%;
+    bottom: 0vh;
+    transform: translate(-50%, 100%);
+  }
+
+  to {
+    left: 50%;
+    bottom: 2vh;
+    transform: translate(-50%, 0px);
+  }
+}
+
+@keyframes slide-down-to-bottom {
+  to {
+    left: 50%;
+    bottom: 0vh;
+    transform: translate(-50%, 100%);
+  }
+
+  from {
+    left: 50%;
+    bottom: 2vh;
+    transform: translate(-50%, 0px);
+  }
+}
+
+// for top right toasts
+@keyframes slide-left-from-right {
+  from {
+    right: 0px;
+    top: 5vh;
+    transform: translate(100%, 0px);
+  }
+
+  to {
+    right: 2vh;
+    top: 5vh;
+  }
+}
+
+@keyframes slide-right-from-left {
+  to {
+    right: 0px;
+    top: 5vh;
+    transform: translate(100%, 0px);
+  }
+
+  from {
+    right: 2vh;
+    top: 5vh;
+  }
 }

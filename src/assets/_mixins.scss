@@ -1,0 +1,38 @@
+@mixin row {
+  display: flex;
+  flex-direction: row;
+}
+
+@mixin block {
+  display: block !important;
+}
+
+@mixin inline-block {
+  display: inline-block !important;
+}
+
+@mixin inline-flex {
+  display: inline-flex !important;
+}
+
+@mixin inline {
+  display: inline !important;
+}
+
+@mixin rounded {
+  border-radius: 0.25rem;
+}
+
+@mixin pointer {
+  cursor: pointer;
+}
+
+@mixin width($percentage) {
+  $width: percentage($percentage/100);
+  width: $width;
+}
+
+@mixin horizontal-center {
+  margin-left: auto;
+  margin-right: auto;
+}

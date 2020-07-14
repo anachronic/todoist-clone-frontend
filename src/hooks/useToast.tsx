@@ -6,11 +6,11 @@ type UseToastHook = (options: UseToastOptions) => void
 
 export interface UseToastOptions {
   text: string
-  position?: 'bottomCenter' | 'topCenter' | 'topRight'
+  position?: 'bottom-center' | 'top-center' | 'top-right'
+  variant?: 'danger' | 'primary' | 'accent' | 'info' | 'warning'
   timeout?: number
 }
 
-// Yes, I realize this is not a hook...
 export function useToast(): UseToastHook {
   const startToast = (options: UseToastOptions) => {
     ReactDOM.render(
@@ -25,7 +25,7 @@ export function useToast(): UseToastHook {
           ReactDOM.unmountComponentAtNode(node)
         }
       },
-      typeof options.timeout === 'undefined' ? 3000 : options.timeout
+      typeof options.timeout === 'undefined' ? 3200 : options.timeout + 200
     )
   }
 

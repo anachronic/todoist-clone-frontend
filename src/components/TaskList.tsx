@@ -36,6 +36,7 @@ export const TaskList: React.FC<Props> = ({
                   startToast({
                     text: 'Task completed',
                     timeout: 2000,
+                    position: 'bottom-center',
                   })
                 }
               }}
