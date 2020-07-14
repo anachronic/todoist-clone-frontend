@@ -25,7 +25,7 @@ interface Props {
 export const ProjectNew: React.FC<Props> = ({ onProjectAdded }) => {
   const [adding, setAdding] = useState(false)
   const [inputRef, setInputFocus] = useAutoFocus()
-  const [createTask] = useMutation(mutation)
+  const [createProject] = useMutation(mutation)
 
   useEffect(() => {
     if (adding) {
@@ -40,10 +40,11 @@ export const ProjectNew: React.FC<Props> = ({ onProjectAdded }) => {
           initialValues={{ name: '' }}
           validationSchema={validationSchema}
           onSubmit={(values: FormValues) => {
-            createTask({ variables: values }).then(({ data }) => {
+            createProject({ variables: values }).then(({ data }) => {
               setAdding(false)
+
               if (onProjectAdded) {
-                onProjectAdded(data.createTask)
+                onProjectAdded(data.createProject)
               }
             })
           }}
