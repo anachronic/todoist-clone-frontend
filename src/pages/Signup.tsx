@@ -18,9 +18,9 @@ interface FormValues {
 }
 
 const validationSchema = yup.object().shape({
-  email: yup.string().email().required('Required'),
+  email: yup.string().email('Enter a valid email').required('Required'),
   name: yup.string().required('Required').min(2),
-  password: yup.string().required('Required').min(6),
+  password: yup.string().required('Required').min(6, 'At least 6 characters'),
   passwordConfirmation: yup
     .string()
     .required('Required')
@@ -69,7 +69,7 @@ const Signup: React.FC = () => {
               <FormikInput
                 type="password"
                 name="passwordConfirmation"
-                placeholder="passwordConfirmation"
+                placeholder="confirm password"
               />
 
               <div>
