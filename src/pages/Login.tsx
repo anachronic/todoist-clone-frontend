@@ -7,17 +7,28 @@ import { Link, useHistory } from 'react-router-dom'
 import { Button } from '../components/Button'
 import { FormikInput } from '../components/FormikInput'
 import { useAuthStore } from '../hooks/useAuthStore'
+import { useToast } from '../hooks/useToast'
+import * as yup from 'yup'
 
 interface FormValues {
   email: string
   password: string
 }
 
+const validationSchema = yup.object().shape({
+  email: yup
+    .string()
+    .required('Email is required')
+    .email('Enter a valid email'),
+  password: yup.string().required('Enter a password'),
+})
+
 const mutation = loader('../queries/requestLogin.graphql')
 
 const Login: React.FC = () => {
   const authStore = useAuthStore()
   const history = useHistory()
+  const startToast = useToast()
 
   const [requestLogin, { loading }] = useMutation(mutation, {
     onCompleted: ({ obtainAuthToken: token }) => {
@@ -25,7 +36,11 @@ const Login: React.FC = () => {
         authStore.authenticate(token)
         history.push('/')
       } else {
-        console.log('show some sort of fail message')
+        startToast({
+          text: 'Login failed due to bad credentials, please try again',
+          position: 'top-center',
+          variant: 'danger',
+        })
       }
     },
   })
@@ -38,6 +53,7 @@ const Login: React.FC = () => {
             email: '',
             password: '',
           }}
+          validationSchema={validationSchema}
           onSubmit={(values: FormValues) => requestLogin({ variables: values })}
         >
           {({ handleSubmit }) => (
